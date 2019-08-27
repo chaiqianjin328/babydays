@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.babydays.dao.BSigninDao" >
+  <resultMap id="BaseResultMap" type="com.babydays.model.BSignin" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="stu_id" property="stuId" jdbcType="INTEGER" />
+    <result column="intime" property="intime" jdbcType="TIMESTAMP" />
+    <result column="outtime" property="outtime" jdbcType="TIMESTAMP" />
+    <result column="createtime" property="createtime" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, stu_id, intime, outtime, createtime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.babydays.model.BSigninExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from b_signin 
+    <if test="_parameter != null" >
+   	  <include refid="Example_Where_Clause" />
+   	</if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from b_signin
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from b_signin
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.babydays.model.BSigninExample" >
+    delete from b_signin
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.babydays.model.BSignin" >
+    insert into b_signin (id, stu_id, intime, 
+      outtime, createtime)
+    values (#{id,jdbcType=INTEGER}, #{stuId,jdbcType=INTEGER}, #{intime,jdbcType=TIMESTAMP}, 
+      #{outtime,jdbcType=TIMESTAMP}, #{createtime,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.babydays.model.BSignin" >
+    insert into b_signin
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="stuId != null" >
+        stu_id,
+      </if>
+      <if test="intime != null" >
+        intime,
+      </if>
+      <if test="outtime != null" >
+        outtime,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="stuId != null" >
+        #{stuId,jdbcType=INTEGER},
+      </if>
+      <if test="intime != null" >
+        #{intime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outtime != null" >
+        #{outtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.babydays.model.BSigninExample" resultType="java.lang.Integer" >
+    select count(*) from b_signin
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update b_signin
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.stuId != null" >
+        stu_id = #{record.stuId,jdbcType=INTEGER},
+      </if>
+      <if test="record.intime != null" >
+        intime = #{record.intime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.outtime != null" >
+        outtime = #{record.outtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createtime != null" >
+        createtime = #{record.createtime,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update b_signin
+    set id = #{record.id,jdbcType=INTEGER},
+      stu_id = #{record.stuId,jdbcType=INTEGER},
+      intime = #{record.intime,jdbcType=TIMESTAMP},
+      outtime = #{record.outtime,jdbcType=TIMESTAMP},
+      createtime = #{record.createtime,jdbcType=DATE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.babydays.model.BSignin" >
+    update b_signin
+    <set >
+      <if test="stuId != null" >
+        stu_id = #{stuId,jdbcType=INTEGER},
+      </if>
+      <if test="intime != null" >
+        intime = #{intime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outtime != null" >
+        outtime = #{outtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=DATE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.babydays.model.BSignin" >
+    update b_signin
+    set stu_id = #{stuId,jdbcType=INTEGER},
+      intime = #{intime,jdbcType=TIMESTAMP},
+      outtime = #{outtime,jdbcType=TIMESTAMP},
+      createtime = #{createtime,jdbcType=DATE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <resultMap id="newBaseResultMap" type="com.babydays.model.BSignin" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="stu_id" property="stuId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="garden_id" property="gardenId" jdbcType="INTEGER" />
+    <result column="class_id" property="classId" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="intime" property="intime" jdbcType="TIMESTAMP" />
+    <result column="outtime" property="outtime" jdbcType="TIMESTAMP" />
+    <result column="createtime" property="createtime" jdbcType="DATE" />
+  </resultMap>
+  <sql id="newBase_Column_List" >
+    si.id, s.id AS stu_id, s.name, s.garden_id, s.class_id, s.type, si.intime, si.outtime, si.createtime 
+  </sql>
+   <select id="selectBySiginSelective" resultMap="newBaseResultMap" parameterType="com.babydays.model.BSignin" >
+    select
+    <include refid="newBase_Column_List" />
+    from b_student s left join b_signin si on (s.id = si.stu_id 
+    <if test="createtime != null">
+    	and si.createtime = #{createtime,jdbcType=DATE} 
+    </if>
+    	) where 1=1
+    <if test="gardenId != null">
+   		and s.garden_id = #{gardenId,jdbcType=INTEGER}
+   	</if>
+   	<if test="classId != null">
+   		and s.class_id = #{classId,jdbcType=INTEGER}
+   	</if>	
+    	
+  </select>
+  
+  <select id="selectStudentSigninBySiginSelective" resultMap="newBaseResultMap" parameterType="com.babydays.model.BSignin" >
+    select
+    <include refid="newBase_Column_List" />
+    from b_student s left join b_signin si on (s.id = si.stu_id 
+    <if test="createtime != null">
+    	and si.createtime = #{createtime,jdbcType=DATE} 
+    </if>
+    	) where 1=1
+    <if test="stuId != null">
+   		and s.id = #{stuId,jdbcType=INTEGER}
+   	</if>
+    	
+  </select>
+  
+  
+</mapper>

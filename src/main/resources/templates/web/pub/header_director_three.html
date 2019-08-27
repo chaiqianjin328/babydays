@@ -1,0 +1,27 @@
+<div>
+   <div class="${noticeBtn=='noticeBtn'?'active':'' }">
+     <a href="#" class="has-son">
+       <i></i>
+       <span>公告栏</span>
+     </a>
+     <div>
+       <a class="${informBtn=='informBtn'?'selected':'' }" href="${pageContext.request.contextPath }/web/notice/inform">通知管理</a>
+       <a class="${calendarBtn=='calendarBtn'?'selected':'' }" href="${pageContext.request.contextPath }/web/notice/calendar">校历管理</a>
+       <a class="${recipeBtn=='recipeBtn'?'selected':'' }" href="${pageContext.request.contextPath }/web/notice/recipe">食谱管理</a>
+     </div>
+   </div>
+   
+   <%-- <div class="${signinBtn=='signinBtn'?'active':'' }">
+     <a href="${pageContext.request.contextPath }/web/signin/signin_headmaster" >
+       <i></i>
+       <span>签到管理</span>
+     </a>
+   </div> --%>
+   <div class="${leaveBtn=='leaveBtn'?'active':'' }">
+     <a href="${pageContext.request.contextPath }/web/leave/leave_headmaster" >
+       <i></i>
+       <span>请假管理</span>
+     </a>
+   </div>
+   
+ </div>

@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.babydays.dao.BStudentDao" >
+  <resultMap id="BaseResultMap" type="com.babydays.model.BStudent" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="petname" property="petname" jdbcType="VARCHAR" />
+    <result column="home" property="home" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="photo" property="photo" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="birth" property="birth" jdbcType="DATE" />
+    <result column="allergy" property="allergy" jdbcType="VARCHAR" />
+    <result column="diapers" property="diapers" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="parent_name" property="parentName" jdbcType="VARCHAR" />
+    <result column="parent_type" property="parentType" jdbcType="VARCHAR" />
+    <result column="tel_one" property="telOne" jdbcType="VARCHAR" />
+    <result column="tel_two" property="telTwo" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="garden_id" property="gardenId" jdbcType="INTEGER" />
+    <result column="class_id" property="classId" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <resultMap id="newBaseResultMap" type="com.babydays.model.BStudent" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="petname" property="petname" jdbcType="VARCHAR" />
+    <result column="home" property="home" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="photo" property="photo" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="birth" property="birth" jdbcType="DATE" />
+    <result column="allergy" property="allergy" jdbcType="VARCHAR" />
+    <result column="diapers" property="diapers" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="parent_name" property="parentName" jdbcType="VARCHAR" />
+    <result column="parent_type" property="parentType" jdbcType="VARCHAR" />
+    <result column="tel_one" property="telOne" jdbcType="VARCHAR" />
+    <result column="tel_two" property="telTwo" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="garden_id" property="gardenId" jdbcType="INTEGER" />
+    <result column="class_id" property="classId" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="role" property="role" jdbcType="INTEGER" />
+    <result column="details_id" property="detailsId" jdbcType="INTEGER" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="lasttime" property="lasttime" jdbcType="TIMESTAMP" />
+    <result column="lastcreatetime" property="lastcreatetime" jdbcType="TIMESTAMP" />
+    <result column="gardenname" property="gardenname" jdbcType="VARCHAR" />
+    <result column="class_name" property="className" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="newBase_Column_List" >
+    s.id, s.name, s.petname, s.home, s.sex, s.photo, s.age, s.birth, s.allergy, s.diapers, s.type, s.parent_name, s.parent_type, 
+    s.tel_one, s.tel_two, s.address, s.garden_id, s.class_id, s.status, u.uid, u.username, u.password, u.role, u.details_id, u.createtime, u.lasttime, u.lastcreatetime, g.gardenname, c.class_name
+  </sql>
+  <sql id="Base_Column_List" >
+    id, name, petname, home, sex, photo, age, birth, allergy, diapers, type, parent_name, 
+    parent_type, tel_one, tel_two, address, garden_id, class_id, status
+  </sql>
+  <select id="selectByExample" resultMap="newBaseResultMap" parameterType="com.babydays.model.BStudentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="newBase_Column_List" />
+    from b_student s,b_user u,b_garden g,b_class c
+    where s.id = u.details_id and s.garden_id = g.id and s.class_id = c.id
+    and u.role = 7
+    <trim prefix="and" prefixOverrides="where">
+	    <if test="_parameter != null" >
+    	  <include refid="Example_Where_Clause" />
+    	</if>
+    </trim>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from b_student
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from b_student
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.babydays.model.BStudentExample" >
+    delete from b_student
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.babydays.model.BStudent" >
+    insert into b_student (id, name, petname, 
+      home, sex, photo, age, 
+      birth, allergy, diapers, 
+      type, parent_name, parent_type, 
+      tel_one, tel_two, address, 
+      garden_id, class_id, status
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{petname,jdbcType=VARCHAR}, 
+      #{home,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, #{photo,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
+      #{birth,jdbcType=DATE}, #{allergy,jdbcType=VARCHAR}, #{diapers,jdbcType=INTEGER}, 
+      #{type,jdbcType=INTEGER}, #{parentName,jdbcType=VARCHAR}, #{parentType,jdbcType=VARCHAR}, 
+      #{telOne,jdbcType=VARCHAR}, #{telTwo,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{gardenId,jdbcType=INTEGER}, #{classId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" keyProperty="id" useGeneratedKeys="true" parameterType="com.babydays.model.BStudent" >
+    insert into b_student
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="petname != null" >
+        petname,
+      </if>
+      <if test="home != null" >
+        home,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="photo != null" >
+        photo,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="birth != null" >
+        birth,
+      </if>
+      <if test="allergy != null" >
+        allergy,
+      </if>
+      <if test="diapers != null" >
+        diapers,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="parentName != null" >
+        parent_name,
+      </if>
+      <if test="parentType != null" >
+        parent_type,
+      </if>
+      <if test="telOne != null" >
+        tel_one,
+      </if>
+      <if test="telTwo != null" >
+        tel_two,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="gardenId != null" >
+        garden_id,
+      </if>
+      <if test="classId != null" >
+        class_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="petname != null" >
+        #{petname,jdbcType=VARCHAR},
+      </if>
+      <if test="home != null" >
+        #{home,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="photo != null" >
+        #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="birth != null" >
+        #{birth,jdbcType=DATE},
+      </if>
+      <if test="allergy != null" >
+        #{allergy,jdbcType=VARCHAR},
+      </if>
+      <if test="diapers != null" >
+        #{diapers,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="parentName != null" >
+        #{parentName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentType != null" >
+        #{parentType,jdbcType=VARCHAR},
+      </if>
+      <if test="telOne != null" >
+        #{telOne,jdbcType=VARCHAR},
+      </if>
+      <if test="telTwo != null" >
+        #{telTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="gardenId != null" >
+        #{gardenId,jdbcType=INTEGER},
+      </if>
+      <if test="classId != null" >
+        #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.babydays.model.BStudentExample" resultType="java.lang.Integer" >
+    select count(*) from b_student
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update b_student
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.petname != null" >
+        petname = #{record.petname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.home != null" >
+        home = #{record.home,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sex != null" >
+        sex = #{record.sex,jdbcType=INTEGER},
+      </if>
+      <if test="record.photo != null" >
+        photo = #{record.photo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.age != null" >
+        age = #{record.age,jdbcType=INTEGER},
+      </if>
+      <if test="record.birth != null" >
+        birth = #{record.birth,jdbcType=DATE},
+      </if>
+      <if test="record.allergy != null" >
+        allergy = #{record.allergy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.diapers != null" >
+        diapers = #{record.diapers,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.parentName != null" >
+        parent_name = #{record.parentName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentType != null" >
+        parent_type = #{record.parentType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.telOne != null" >
+        tel_one = #{record.telOne,jdbcType=VARCHAR},
+      </if>
+      <if test="record.telTwo != null" >
+        tel_two = #{record.telTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gardenId != null" >
+        garden_id = #{record.gardenId,jdbcType=INTEGER},
+      </if>
+      <if test="record.classId != null" >
+        class_id = #{record.classId,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update b_student
+    set id = #{record.id,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      petname = #{record.petname,jdbcType=VARCHAR},
+      home = #{record.home,jdbcType=VARCHAR},
+      sex = #{record.sex,jdbcType=INTEGER},
+      photo = #{record.photo,jdbcType=VARCHAR},
+      age = #{record.age,jdbcType=INTEGER},
+      birth = #{record.birth,jdbcType=DATE},
+      allergy = #{record.allergy,jdbcType=VARCHAR},
+      diapers = #{record.diapers,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
+      parent_name = #{record.parentName,jdbcType=VARCHAR},
+      parent_type = #{record.parentType,jdbcType=VARCHAR},
+      tel_one = #{record.telOne,jdbcType=VARCHAR},
+      tel_two = #{record.telTwo,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      garden_id = #{record.gardenId,jdbcType=INTEGER},
+      class_id = #{record.classId,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.babydays.model.BStudent" >
+    update b_student
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="petname != null" >
+        petname = #{petname,jdbcType=VARCHAR},
+      </if>
+      <if test="home != null" >
+        home = #{home,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="photo != null" >
+        photo = #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="birth != null" >
+        birth = #{birth,jdbcType=DATE},
+      </if>
+      <if test="allergy != null" >
+        allergy = #{allergy,jdbcType=VARCHAR},
+      </if>
+      <if test="diapers != null" >
+        diapers = #{diapers,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="parentName != null" >
+        parent_name = #{parentName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentType != null" >
+        parent_type = #{parentType,jdbcType=VARCHAR},
+      </if>
+      <if test="telOne != null" >
+        tel_one = #{telOne,jdbcType=VARCHAR},
+      </if>
+      <if test="telTwo != null" >
+        tel_two = #{telTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="gardenId != null" >
+        garden_id = #{gardenId,jdbcType=INTEGER},
+      </if>
+      <if test="classId != null" >
+        class_id = #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.babydays.model.BStudent" >
+    update b_student
+    set name = #{name,jdbcType=VARCHAR},
+      petname = #{petname,jdbcType=VARCHAR},
+      home = #{home,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      photo = #{photo,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      birth = #{birth,jdbcType=DATE},
+      allergy = #{allergy,jdbcType=VARCHAR},
+      diapers = #{diapers,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      parent_name = #{parentName,jdbcType=VARCHAR},
+      parent_type = #{parentType,jdbcType=VARCHAR},
+      tel_one = #{telOne,jdbcType=VARCHAR},
+      tel_two = #{telTwo,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      garden_id = #{gardenId,jdbcType=INTEGER},
+      class_id = #{classId,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+</mapper>

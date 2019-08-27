@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.babydays.dao.BAbilitiesCataDao" >
+  <resultMap id="BaseResultMap" type="com.babydays.model.BAbilitiesCata" >
+    <id column="cata_id" property="cataId" jdbcType="INTEGER" />
+    <result column="cata_name" property="cataName" jdbcType="VARCHAR" />
+    <result column="cata_level" property="cataLevel" jdbcType="VARCHAR" />
+    <result column="cata_level_type" property="cataLevelType" jdbcType="INTEGER" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    cata_id, cata_name, cata_level, cata_level_type, parent_id, createtime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.babydays.model.BAbilitiesCataExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from b_abilities_cata
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from b_abilities_cata
+    where cata_id = #{cataId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from b_abilities_cata
+    where cata_id = #{cataId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.babydays.model.BAbilitiesCataExample" >
+    delete from b_abilities_cata
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.babydays.model.BAbilitiesCata" >
+    insert into b_abilities_cata (cata_id, cata_name, cata_level, 
+      cata_level_type, parent_id, createtime
+      )
+    values (#{cataId,jdbcType=INTEGER}, #{cataName,jdbcType=VARCHAR}, #{cataLevel,jdbcType=VARCHAR}, 
+      #{cataLevelType,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.babydays.model.BAbilitiesCata" >
+    insert into b_abilities_cata
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cataId != null" >
+        cata_id,
+      </if>
+      <if test="cataName != null" >
+        cata_name,
+      </if>
+      <if test="cataLevel != null" >
+        cata_level,
+      </if>
+      <if test="cataLevelType != null" >
+        cata_level_type,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cataId != null" >
+        #{cataId,jdbcType=INTEGER},
+      </if>
+      <if test="cataName != null" >
+        #{cataName,jdbcType=VARCHAR},
+      </if>
+      <if test="cataLevel != null" >
+        #{cataLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="cataLevelType != null" >
+        #{cataLevelType,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.babydays.model.BAbilitiesCataExample" resultType="java.lang.Integer" >
+    select count(*) from b_abilities_cata
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update b_abilities_cata
+    <set >
+      <if test="record.cataId != null" >
+        cata_id = #{record.cataId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cataName != null" >
+        cata_name = #{record.cataName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cataLevel != null" >
+        cata_level = #{record.cataLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cataLevelType != null" >
+        cata_level_type = #{record.cataLevelType,jdbcType=INTEGER},
+      </if>
+      <if test="record.parentId != null" >
+        parent_id = #{record.parentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null" >
+        createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update b_abilities_cata
+    set cata_id = #{record.cataId,jdbcType=INTEGER},
+      cata_name = #{record.cataName,jdbcType=VARCHAR},
+      cata_level = #{record.cataLevel,jdbcType=VARCHAR},
+      cata_level_type = #{record.cataLevelType,jdbcType=INTEGER},
+      parent_id = #{record.parentId,jdbcType=INTEGER},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.babydays.model.BAbilitiesCata" >
+    update b_abilities_cata
+    <set >
+      <if test="cataName != null" >
+        cata_name = #{cataName,jdbcType=VARCHAR},
+      </if>
+      <if test="cataLevel != null" >
+        cata_level = #{cataLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="cataLevelType != null" >
+        cata_level_type = #{cataLevelType,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where cata_id = #{cataId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.babydays.model.BAbilitiesCata" >
+    update b_abilities_cata
+    set cata_name = #{cataName,jdbcType=VARCHAR},
+      cata_level = #{cataLevel,jdbcType=VARCHAR},
+      cata_level_type = #{cataLevelType,jdbcType=INTEGER},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      createtime = #{createtime,jdbcType=TIMESTAMP}
+    where cata_id = #{cataId,jdbcType=INTEGER}
+  </update>
+</mapper>

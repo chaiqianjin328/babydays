@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.babydays.dao.BHealthDao" >
+  <resultMap id="BaseResultMap" type="com.babydays.model.BHealth" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="real_age" property="realAge" jdbcType="INTEGER" />
+    <result column="weight" property="weight" jdbcType="DOUBLE" />
+    <result column="height" property="height" jdbcType="DOUBLE" />
+    <result column="vision_left" property="visionLeft" jdbcType="DOUBLE" />
+    <result column="vision_right" property="visionRight" jdbcType="DOUBLE" />
+    <result column="stu_id" property="stuId" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="checktime" property="checktime" jdbcType="TIMESTAMP" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, real_age, weight, height, vision_left, vision_right, stu_id, uid, checktime, 
+    createtime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.babydays.model.BHealthExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from b_health
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from b_health
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from b_health
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.babydays.model.BHealthExample" >
+    delete from b_health
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.babydays.model.BHealth" >
+    insert into b_health (id, real_age, weight, 
+      height, vision_left, vision_right, 
+      stu_id, uid, checktime, 
+      createtime)
+    values (#{id,jdbcType=INTEGER}, #{realAge,jdbcType=INTEGER}, #{weight,jdbcType=DOUBLE}, 
+      #{height,jdbcType=DOUBLE}, #{visionLeft,jdbcType=DOUBLE}, #{visionRight,jdbcType=DOUBLE}, 
+      #{stuId,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{checktime,jdbcType=TIMESTAMP}, 
+      #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.babydays.model.BHealth" >
+    insert into b_health
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="realAge != null" >
+        real_age,
+      </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+      <if test="height != null" >
+        height,
+      </if>
+      <if test="visionLeft != null" >
+        vision_left,
+      </if>
+      <if test="visionRight != null" >
+        vision_right,
+      </if>
+      <if test="stuId != null" >
+        stu_id,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="checktime != null" >
+        checktime,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="realAge != null" >
+        #{realAge,jdbcType=INTEGER},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=DOUBLE},
+      </if>
+      <if test="height != null" >
+        #{height,jdbcType=DOUBLE},
+      </if>
+      <if test="visionLeft != null" >
+        #{visionLeft,jdbcType=DOUBLE},
+      </if>
+      <if test="visionRight != null" >
+        #{visionRight,jdbcType=DOUBLE},
+      </if>
+      <if test="stuId != null" >
+        #{stuId,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="checktime != null" >
+        #{checktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.babydays.model.BHealthExample" resultType="java.lang.Integer" >
+    select count(*) from b_health
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update b_health
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.realAge != null" >
+        real_age = #{record.realAge,jdbcType=INTEGER},
+      </if>
+      <if test="record.weight != null" >
+        weight = #{record.weight,jdbcType=DOUBLE},
+      </if>
+      <if test="record.height != null" >
+        height = #{record.height,jdbcType=DOUBLE},
+      </if>
+      <if test="record.visionLeft != null" >
+        vision_left = #{record.visionLeft,jdbcType=DOUBLE},
+      </if>
+      <if test="record.visionRight != null" >
+        vision_right = #{record.visionRight,jdbcType=DOUBLE},
+      </if>
+      <if test="record.stuId != null" >
+        stu_id = #{record.stuId,jdbcType=INTEGER},
+      </if>
+      <if test="record.uid != null" >
+        uid = #{record.uid,jdbcType=INTEGER},
+      </if>
+      <if test="record.checktime != null" >
+        checktime = #{record.checktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createtime != null" >
+        createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update b_health
+    set id = #{record.id,jdbcType=INTEGER},
+      real_age = #{record.realAge,jdbcType=INTEGER},
+      weight = #{record.weight,jdbcType=DOUBLE},
+      height = #{record.height,jdbcType=DOUBLE},
+      vision_left = #{record.visionLeft,jdbcType=DOUBLE},
+      vision_right = #{record.visionRight,jdbcType=DOUBLE},
+      stu_id = #{record.stuId,jdbcType=INTEGER},
+      uid = #{record.uid,jdbcType=INTEGER},
+      checktime = #{record.checktime,jdbcType=TIMESTAMP},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.babydays.model.BHealth" >
+    update b_health
+    <set >
+      <if test="realAge != null" >
+        real_age = #{realAge,jdbcType=INTEGER},
+      </if>
+      <if test="weight != null" >
+        weight = #{weight,jdbcType=DOUBLE},
+      </if>
+      <if test="height != null" >
+        height = #{height,jdbcType=DOUBLE},
+      </if>
+      <if test="visionLeft != null" >
+        vision_left = #{visionLeft,jdbcType=DOUBLE},
+      </if>
+      <if test="visionRight != null" >
+        vision_right = #{visionRight,jdbcType=DOUBLE},
+      </if>
+      <if test="stuId != null" >
+        stu_id = #{stuId,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="checktime != null" >
+        checktime = #{checktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.babydays.model.BHealth" >
+    update b_health
+    set real_age = #{realAge,jdbcType=INTEGER},
+      weight = #{weight,jdbcType=DOUBLE},
+      height = #{height,jdbcType=DOUBLE},
+      vision_left = #{visionLeft,jdbcType=DOUBLE},
+      vision_right = #{visionRight,jdbcType=DOUBLE},
+      stu_id = #{stuId,jdbcType=INTEGER},
+      uid = #{uid,jdbcType=INTEGER},
+      checktime = #{checktime,jdbcType=TIMESTAMP},
+      createtime = #{createtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

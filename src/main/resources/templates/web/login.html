@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>幼儿园管理系统</title>
+  <!--全局引入-->
+  <link rel="shortcut icon" th:href="@{/favicon.ico}"/>
+  <link rel="bookmark" th:href="@{/favicon.ico}"/>
+  <link rel="stylesheet" type="text/css" href="../../css/component.css" th:href="@{/css/component.css}"/>
+  <link rel="stylesheet" type="text/css" href="../../css/main.css" th:href="@{/css/main.css}"/>
+  <link rel="stylesheet" type="text/css" href="../../css/icono.min.css" th:href="@{/css/icono.min.css}"/>
+  <script src="../../js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+  <script src="../../js/component.js" th:src="@{/js/component.js}"></script>
+  <script>
+    $(function(){
+      $(".input-box input").focus(function(){
+        $(this).parents(".input-box").css("border-color","#ff7800");
+      })
+      $(".input-box input").blur(function(){
+        $(this).parents(".input-box").css("border-color","#d1d7e0");
+      })
+      $(".input-box input").change(function(){
+        if($(this).val()!=""){
+          $(this).next("a").show();
+        }else {
+          $(this).next("a").hide()
+        }
+      })
+      $(".input-box a").click(function(){
+        $(this).hide();
+        $(this).prev("input").val("");
+      })
+    })
+  </script>
+</head>
+<body>
+  <div class="page login">
+    <div class="login-box">
+    <form id="userForm">
+      <div class="input-box">
+        <i></i>
+        <input type="text" id="username" name="username" placeholder="请在此输入账号">
+        <a></a>
+      </div>
+      <div class="input-box">
+        <i></i>
+        <input type="password" id="password" name="password" placeholder="请在此输入密码">
+        <a></a>
+      </div>
+      <div class="input-box">
+        <i></i>
+        <input id="code" name="code" type="text" placeholder="请在此输入验证码"/>
+        <a></a>
+      </div>
+      <div class="input-box" style="border-bottom: 0px;" >
+        <i onclick="changeImg()"></i>
+		<img id="imgObj" src="../../web/user/validateCode" width="130" height="40" onclick="changeImg()" />
+		<div id="msg" style="color: red;"></div>
+        <a></a>
+      </div>
+      </form>
+      <button onclick="login();">登陆</button>
+    </div>
+  </div>
+  <script type="text/javascript">
+	
+
+		//enter
+		$(document).keydown(function(event){
+			if(event.keyCode == 13){
+				login();
+			}
+		});
+	
+	
+		
+		function login() {
+			var validateStatus = validateUser();
+			if (validateStatus==true) {
+				$.ajax({
+					type:"POST",
+					url:"../../web/user/login",
+					data:$("#userForm").serialize(),
+					async:false,
+					error:function(request){
+						alert("系统异常,请刷新页面后再次登陆");
+					},
+					success:function(data){
+						if (data.code==200) {
+							if (data.data.loginUser.role==0) {
+								window.location.href="../../web/system/garden"
+							}
+							if (data.data.loginUser.role==1||data.data.loginUser.role==2) {
+								window.location.href="../../web/system/class"
+							}
+							if (data.data.loginUser.role==3) {
+								window.location.href="../../web/notice/calendar"
+							}
+							if (data.data.loginUser.role==4||data.data.loginUser.role==5) {
+								window.location.href="../../web/system/student";
+							}
+							if (data.data.loginUser.role==6) {
+								window.location.href="../../web/notice/inform"
+							}
+							if (data.data.loginUser.role==7) {
+								window.location.href="../../web/notice/calendar"
+							}
+						}
+						if (data.code==400) {
+							changeImg();
+							$("#msg").html(data.msg);
+						}
+					}
+				});
+			}
+		}
+	
+	
+	
+		function validateUser() {
+			var validateStatus = true;
+			if ($("#username").val()==null||$("#username").val()=="") {
+				$("#username").attr("placeholder","用户名不能为空");
+				validateStatus = false;
+			}
+			if ($("#password").val()==null||$("#password").val()=="") {
+				$("#password").attr("placeholder","密码不能为空");
+				validateStatus = false;
+			}
+			if ($("#code").val()==null||$("#code").val()=="") {
+				$("#code").attr("placeholder","验证码不能为空");
+				validateStatus = false;
+			}
+			return validateStatus;
+		}
+		
+		
+		
+		// 刷新图片  
+	    function changeImg() {  
+	        var imgSrc = $("#imgObj");  
+	        var src = imgSrc.attr("src");  
+	        imgSrc.attr("src", changeUrl(src));  
+	    }  
+	     //为了使每次生成图片不一致，即不让浏览器读缓存，所以需要加上时间戳  
+	    function changeUrl(url) {  
+	        var timestamp = (new Date()).valueOf();  
+	        var index = url.indexOf("?",url);  
+	        if (index > 0) {    
+	            url = url.substring(index, url.indexOf(url, "?"));    
+	        } 
+	        if ((url.indexOf("&") >= 0)) {  
+	            url = url + "×tamp=" + timestamp;  
+	        } else {  
+	            url = url + "?timestamp=" + timestamp;  
+	        }  
+	        return url;  
+	    } 
+		
+	
+	
+	</script>
+</body>
+</html>

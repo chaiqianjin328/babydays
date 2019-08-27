@@ -1,0 +1,67 @@
+<div>
+   <div class="${systemBtn=='systemBtn'?'active':'' }">
+     <a href="#" class="has-son">
+       <i></i>
+       <span>系统管理</span>
+     </a>
+     <div>
+       <a class="${studentBtn=='studentBtn'?'selected':'' }" href="${pageContext.request.contextPath }/web/system/student">学生管理</a>
+     </div>
+   </div>
+   <div class="${noticeBtn=='noticeBtn'?'active':'' }">
+     <a href="#" class="has-son">
+       <i></i>
+       <span>公告栏</span>
+     </a>
+     <div>
+       <a class="${informBtn=='informBtn'?'selected':'' }" href="${pageContext.request.contextPath }/web/notice/inform">通知管理</a>
+       <a class="${calendarBtn=='calendarBtn'?'selected':'' }" href="${pageContext.request.contextPath }/web/notice/calendar">校历管理</a>
+       <a class="${recipeBtn=='recipeBtn'?'selected':'' }" href="${pageContext.request.contextPath }/web/notice/recipe">食谱管理</a>
+     </div>
+   </div>
+   <div class="${archivesBtn=='archivesBtn'?'active':'' }">
+     <a href="#" class="has-son">
+       <i></i>
+       <span>成长档案</span>
+     </a>
+     <div>
+       <a class="${diaryBtn=='diaryBtn'?'selected':'' }" href="${pageContext.request.contextPath }/web/archives/archives_headmaster">成长日记</a>
+       <a class="${healthBtn=='healthBtn'?'selected':'' }" href="${pageContext.request.contextPath }/web/archives/archives_headmaster_health">体检信息</a>
+       <a class="${toothBtn=='toothBtn'?'selected':'' }" href="${pageContext.request.contextPath }/web/archives/archives_headmaster_tooth">牙齿涂氟</a>
+     </div>
+   </div>
+   <div class="${growthBtn=='growthBtn'?'active':'' }">
+     <a href="${pageContext.request.contextPath }/web/growth/advice_headmaster">
+       <i></i>
+       <span>成长建议</span>
+     </a>
+   </div>
+   <div class="${teachprogramBtn=='teachprogramBtn'?'active':'' }">
+     <a href="${pageContext.request.contextPath }/web/teachprogram/teach_program">
+       <i></i>
+       <span>教学计划</span>
+     </a>
+   </div>
+   <%-- <div class="${signinBtn=='signinBtn'?'active':'' }">
+     <a href="${pageContext.request.contextPath }/web/signin/signin_headmaster">
+       <i></i>
+       <span>签到管理</span>
+     </a>
+   </div> --%>
+   <div class="${leaveBtn=='leaveBtn'?'active':'' }">
+     <a href="${pageContext.request.contextPath }/web/leave/leave_headmaster" >
+       <i></i>
+       <span>请假管理</span>
+     </a>
+   </div>
+   <div class="${picvidBtn=='picvidBtn'?'active':'' }">
+     <a href="#" class="has-son">
+       <i></i>
+       <span>图片/视频管理</span>
+     </a>
+     <div>
+       <a class="${imgBtn=='imgBtn'?'selected':'' }"  href="${pageContext.request.contextPath }/web/picvid/img_headmaster">图片管理</a>
+       <a class="${vidBtn=='vidBtn'?'selected':'' }" href="${pageContext.request.contextPath }/web/picvid/video_headmaster">视频管理</a>
+     </div>
+   </div>
+ </div>

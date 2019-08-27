@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.babydays.dao.BDocumentDao" >
+  <resultMap id="BaseResultMap" type="com.babydays.model.BDocument" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="imgs" property="imgs" jdbcType="VARCHAR" />
+    <result column="voices" property="voices" jdbcType="VARCHAR" />
+    <result column="videos" property="videos" jdbcType="VARCHAR" />
+    <result column="vimages" property="vimages" jdbcType="VARCHAR" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="stu_id" property="stuId" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="abcata_id" property="abcataId" jdbcType="INTEGER" />
+    <result column="water" property="water" jdbcType="INTEGER" />
+    <result column="breakfast" property="breakfast" jdbcType="INTEGER" />
+    <result column="lunch" property="lunch" jdbcType="INTEGER" />
+    <result column="dinner" property="dinner" jdbcType="INTEGER" />
+    <result column="siesta" property="siesta" jdbcType="INTEGER" />
+    <result column="siesta_time" property="siestaTime" jdbcType="VARCHAR" />
+    <result column="egestion" property="egestion" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  
+  <resultMap id="newBaseResultMap" type="com.babydays.model.BDocument" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="imgs" property="imgs" jdbcType="VARCHAR" />
+    <result column="voices" property="voices" jdbcType="VARCHAR" />
+    <result column="videos" property="videos" jdbcType="VARCHAR" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="stu_id" property="stuId" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="abcata_id" property="abcataId" jdbcType="INTEGER" />
+    <result column="water" property="water" jdbcType="INTEGER" />
+    <result column="breakfast" property="breakfast" jdbcType="INTEGER" />
+    <result column="lunch" property="lunch" jdbcType="INTEGER" />
+    <result column="dinner" property="dinner" jdbcType="INTEGER" />
+    <result column="siesta" property="siesta" jdbcType="INTEGER" />
+    <result column="siesta_time" property="siestaTime" jdbcType="VARCHAR" />
+    <result column="egestion" property="egestion" jdbcType="INTEGER" />
+    <result column="stu_name" property="stuName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="newBase_Column_List" >
+    d.id, d.title, d.content, d.imgs, d.voices, d.videos, d.uid, d.author, d.position, d.stu_id, d.type, d.createtime, d.abcata_id, d.water, d.breakfast, d.lunch, d.dinner, d.siesta, d.siesta_time, 
+    d.egestion, s.name AS stu_name
+  </sql>
+  
+  
+  <sql id="Base_Column_List" >
+    id, title, content, imgs, voices, videos, vimages, uid, author, position, stu_id, 
+    type, createtime, abcata_id, water, breakfast, lunch, dinner, siesta, siesta_time, 
+    egestion
+  </sql>
+  <select id="selectByExample" resultMap="newBaseResultMap" parameterType="com.babydays.model.BDocumentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="newBase_Column_List" />
+    from b_document d,b_student s
+    where d.stu_id = s.id
+    <trim prefix="and" prefixOverrides="where">
+    	<if test="_parameter != null" >
+      		<include refid="Example_Where_Clause" />
+    	</if>
+    </trim>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from b_document
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from b_document
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.babydays.model.BDocumentExample" >
+    delete from b_document
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.babydays.model.BDocument" >
+    insert into b_document (id, title, content, 
+      imgs, voices, videos, 
+      vimages, uid, author, 
+      position, stu_id, type, 
+      createtime, abcata_id, water, 
+      breakfast, lunch, dinner, 
+      siesta, siesta_time, egestion
+      )
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{imgs,jdbcType=VARCHAR}, #{voices,jdbcType=VARCHAR}, #{videos,jdbcType=VARCHAR}, 
+      #{vimages,jdbcType=VARCHAR}, #{uid,jdbcType=INTEGER}, #{author,jdbcType=VARCHAR}, 
+      #{position,jdbcType=VARCHAR}, #{stuId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{abcataId,jdbcType=INTEGER}, #{water,jdbcType=INTEGER}, 
+      #{breakfast,jdbcType=INTEGER}, #{lunch,jdbcType=INTEGER}, #{dinner,jdbcType=INTEGER}, 
+      #{siesta,jdbcType=INTEGER}, #{siestaTime,jdbcType=VARCHAR}, #{egestion,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.babydays.model.BDocument" >
+    insert into b_document
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="imgs != null" >
+        imgs,
+      </if>
+      <if test="voices != null" >
+        voices,
+      </if>
+      <if test="videos != null" >
+        videos,
+      </if>
+      <if test="vimages != null" >
+        vimages,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="stuId != null" >
+        stu_id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="abcataId != null" >
+        abcata_id,
+      </if>
+      <if test="water != null" >
+        water,
+      </if>
+      <if test="breakfast != null" >
+        breakfast,
+      </if>
+      <if test="lunch != null" >
+        lunch,
+      </if>
+      <if test="dinner != null" >
+        dinner,
+      </if>
+      <if test="siesta != null" >
+        siesta,
+      </if>
+      <if test="siestaTime != null" >
+        siesta_time,
+      </if>
+      <if test="egestion != null" >
+        egestion,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="imgs != null" >
+        #{imgs,jdbcType=VARCHAR},
+      </if>
+      <if test="voices != null" >
+        #{voices,jdbcType=VARCHAR},
+      </if>
+      <if test="videos != null" >
+        #{videos,jdbcType=VARCHAR},
+      </if>
+      <if test="vimages != null" >
+        #{vimages,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="stuId != null" >
+        #{stuId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="abcataId != null" >
+        #{abcataId,jdbcType=INTEGER},
+      </if>
+      <if test="water != null" >
+        #{water,jdbcType=INTEGER},
+      </if>
+      <if test="breakfast != null" >
+        #{breakfast,jdbcType=INTEGER},
+      </if>
+      <if test="lunch != null" >
+        #{lunch,jdbcType=INTEGER},
+      </if>
+      <if test="dinner != null" >
+        #{dinner,jdbcType=INTEGER},
+      </if>
+      <if test="siesta != null" >
+        #{siesta,jdbcType=INTEGER},
+      </if>
+      <if test="siestaTime != null" >
+        #{siestaTime,jdbcType=VARCHAR},
+      </if>
+      <if test="egestion != null" >
+        #{egestion,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.babydays.model.BDocumentExample" resultType="java.lang.Integer" >
+    select count(*) from b_document
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update b_document
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imgs != null" >
+        imgs = #{record.imgs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.voices != null" >
+        voices = #{record.voices,jdbcType=VARCHAR},
+      </if>
+      <if test="record.videos != null" >
+        videos = #{record.videos,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vimages != null" >
+        vimages = #{record.vimages,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uid != null" >
+        uid = #{record.uid,jdbcType=INTEGER},
+      </if>
+      <if test="record.author != null" >
+        author = #{record.author,jdbcType=VARCHAR},
+      </if>
+      <if test="record.position != null" >
+        position = #{record.position,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stuId != null" >
+        stu_id = #{record.stuId,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null" >
+        createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.abcataId != null" >
+        abcata_id = #{record.abcataId,jdbcType=INTEGER},
+      </if>
+      <if test="record.water != null" >
+        water = #{record.water,jdbcType=INTEGER},
+      </if>
+      <if test="record.breakfast != null" >
+        breakfast = #{record.breakfast,jdbcType=INTEGER},
+      </if>
+      <if test="record.lunch != null" >
+        lunch = #{record.lunch,jdbcType=INTEGER},
+      </if>
+      <if test="record.dinner != null" >
+        dinner = #{record.dinner,jdbcType=INTEGER},
+      </if>
+      <if test="record.siesta != null" >
+        siesta = #{record.siesta,jdbcType=INTEGER},
+      </if>
+      <if test="record.siestaTime != null" >
+        siesta_time = #{record.siestaTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.egestion != null" >
+        egestion = #{record.egestion,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update b_document
+    set id = #{record.id,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR},
+      imgs = #{record.imgs,jdbcType=VARCHAR},
+      voices = #{record.voices,jdbcType=VARCHAR},
+      videos = #{record.videos,jdbcType=VARCHAR},
+      vimages = #{record.vimages,jdbcType=VARCHAR},
+      uid = #{record.uid,jdbcType=INTEGER},
+      author = #{record.author,jdbcType=VARCHAR},
+      position = #{record.position,jdbcType=VARCHAR},
+      stu_id = #{record.stuId,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      abcata_id = #{record.abcataId,jdbcType=INTEGER},
+      water = #{record.water,jdbcType=INTEGER},
+      breakfast = #{record.breakfast,jdbcType=INTEGER},
+      lunch = #{record.lunch,jdbcType=INTEGER},
+      dinner = #{record.dinner,jdbcType=INTEGER},
+      siesta = #{record.siesta,jdbcType=INTEGER},
+      siesta_time = #{record.siestaTime,jdbcType=VARCHAR},
+      egestion = #{record.egestion,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.babydays.model.BDocument" >
+    update b_document
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="imgs != null" >
+        imgs = #{imgs,jdbcType=VARCHAR},
+      </if>
+      <if test="voices != null" >
+        voices = #{voices,jdbcType=VARCHAR},
+      </if>
+      <if test="videos != null" >
+        videos = #{videos,jdbcType=VARCHAR},
+      </if>
+      <if test="vimages != null" >
+        vimages = #{vimages,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="stuId != null" >
+        stu_id = #{stuId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="abcataId != null" >
+        abcata_id = #{abcataId,jdbcType=INTEGER},
+      </if>
+      <if test="water != null" >
+        water = #{water,jdbcType=INTEGER},
+      </if>
+      <if test="breakfast != null" >
+        breakfast = #{breakfast,jdbcType=INTEGER},
+      </if>
+      <if test="lunch != null" >
+        lunch = #{lunch,jdbcType=INTEGER},
+      </if>
+      <if test="dinner != null" >
+        dinner = #{dinner,jdbcType=INTEGER},
+      </if>
+      <if test="siesta != null" >
+        siesta = #{siesta,jdbcType=INTEGER},
+      </if>
+      <if test="siestaTime != null" >
+        siesta_time = #{siestaTime,jdbcType=VARCHAR},
+      </if>
+      <if test="egestion != null" >
+        egestion = #{egestion,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.babydays.model.BDocument" >
+    update b_document
+    set title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      imgs = #{imgs,jdbcType=VARCHAR},
+      voices = #{voices,jdbcType=VARCHAR},
+      videos = #{videos,jdbcType=VARCHAR},
+      vimages = #{vimages,jdbcType=VARCHAR},
+      uid = #{uid,jdbcType=INTEGER},
+      author = #{author,jdbcType=VARCHAR},
+      position = #{position,jdbcType=VARCHAR},
+      stu_id = #{stuId,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      abcata_id = #{abcataId,jdbcType=INTEGER},
+      water = #{water,jdbcType=INTEGER},
+      breakfast = #{breakfast,jdbcType=INTEGER},
+      lunch = #{lunch,jdbcType=INTEGER},
+      dinner = #{dinner,jdbcType=INTEGER},
+      siesta = #{siesta,jdbcType=INTEGER},
+      siesta_time = #{siestaTime,jdbcType=VARCHAR},
+      egestion = #{egestion,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+  <insert id="insertForeach" parameterType="java.util.List" useGeneratedKeys="false">
+    insert into b_document (
+    	id, 
+    	title, 
+    	content, 
+      	imgs, 
+      	voices, 
+      	videos, 
+      	vimages, 
+      	uid, 
+      	author, 
+      	position, 
+      	stu_id, 
+      	type 
+      ) values 
+    <foreach collection="list" item="item" index="index" separator=",">
+    (
+    	#{item.id,jdbcType=INTEGER},
+    	#{item.title,jdbcType=VARCHAR}, 
+    	#{item.content,jdbcType=VARCHAR}, 
+     	#{item.imgs,jdbcType=VARCHAR}, 
+     	#{item.voices,jdbcType=VARCHAR}, 
+     	#{item.videos,jdbcType=VARCHAR}, 
+      	#{item.vimages,jdbcType=VARCHAR}, 
+      	#{item.uid,jdbcType=INTEGER}, 
+      	#{item.author,jdbcType=VARCHAR}, 
+      	#{item.position,jdbcType=VARCHAR}, 
+      	#{item.stuId,jdbcType=INTEGER}, 
+      	#{item.type,jdbcType=INTEGER} 
+    	
+      )
+    </foreach>
+   
+  </insert>
+  
+  
+</mapper>

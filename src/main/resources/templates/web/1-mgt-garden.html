@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>幼儿园管理系统</title>
+  <!--全局引入-->
+  <link rel="shortcut icon" th:href="@{/favicon.ico}"/>
+  <link rel="bookmark" th:href="@{/favicon.ico}"/>
+  <link rel="stylesheet" type="text/css" th:href="@{/plugs/jedate-6.5.0/skin/jedate.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/component.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/jquery.pagination.css}">
+  <script th:src="@{/js/jquery.min.js}"></script>
+  <script th:src="@{/plugs/jedate-6.5.0/dist/jedate.min.js}"></script>
+  <script th:src="@{/js/component.js}"></script>
+  <script th:src="@{/js/getDate.js}"></script>
+  <script th:src="@{/js/jquery.pagination-1.2.7.js}"></script>
+  <script>
+    $(function(){
+      mPopup();
+      mPopupTip();
+      $(".m-title .add").click(function(){
+        $("#addGarden").show();
+      })
+      
+      /* $(".m-table .bianji").click(function(){
+        $("#editGarden").show();
+      }) */
+      
+      $(".m-table .shanchu").click(function(){
+        $(".m-popup-tip").show();
+      })
+
+      jeDate("#d1",{
+        isinitVal:true,
+        format: 'YYYY-MM-DD'
+      });
+      
+      jeDate("#d2",{
+          isinitVal:true,
+          format: 'YYYY-MM-DD'
+        });
+
+    })
+  </script>
+</head>
+<body>
+  <div class="page mgt-kindergarten">
+   	
+   	<!-- 公共头部 -->
+    <th:block th:replace="~{web/pub/header :: header}"></th:block>
+
+    <div class="m-container">
+      <div class="m-title">
+        <div class="left">
+          <i class="chilun"></i>
+          <span>幼儿园管理</span>
+        </div>
+        <div class="right">
+          <button class="title-btn add"></button>
+        </div>
+      </div>
+
+      <div class="m-table">
+        <table>
+          <thead>
+            <tr>
+              <th>序号</th>
+              <th>幼儿园名称</th>
+              <th>园长</th>
+              <th>位置</th>
+              <th>创建时间</th>
+              <th style="width: 250px;">备注</th>
+              <th>状态</th>
+              <th>修改/禁用</th>
+            </tr>
+          </thead>
+          <tbody id="gardenList">
+            <!-- <tr>
+              <td>01</td>
+              <td class="text-left">明天幼稚集团第六幼儿园</td>
+              <td>李泽明</td>
+              <td>金沟河3号院767777号</td>
+              <td>2018-08-16</td>
+              <td>此为备注信息啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</td>
+              <td>
+                <a class="table-btn bianji"></a>
+                <a class="table-btn shanchu"></a>
+              </td>
+            </tr> -->
+            
+          </tbody>
+        </table>
+      </div>
+  
+      <div class="m-paging">
+        <div>
+          <div id="page" class="m-pagination" ></div>
+        </div>
+      </div>
+      <script type="text/javascript">
+      	var pageContainer = $("#page");
+      	pageContainer.page({
+	          debug: true,
+	          showInfo: true,
+	          showJump: true,
+	          showPageSizes: true,
+	          pageIndex:0,
+	          pageSize:5,
+	          infoFormat: '共{total}条数据',
+		        noInfoText: '暂无数据',
+	          remote: {
+	              url: '../../web/system/gardenList',
+	              params: {query:$("#query").val()},
+	              success: function (data) {
+	              	$("#gardenList").html("");
+						if (data.total == 0) {
+							alert("暂无数据");
+						} else {
+		                	$.each(data.list, function(i, garden) {  
+		                			//var time = new Date(garden.createtime).toLocaleDateString();
+		                			var creatTime = new Date(garden.createtime);
+		                			var creatTimeStr = creatTime.getFullYear()+"-"+(creatTime.getMonth()+1)+"-"+creatTime.getDate();
+		                			creatTimeStr = getDate(1,creatTime);
+		                			if (garden.status==0) {
+										var changeStatusBtn = "<a class='table-btn jinyong' href='javascript:deleteGarById("+garden.id+");'></a>";
+									}else{
+										var changeStatusBtn = "<a class='table-btn qiyong' href='javascript:deleteGarById("+garden.id+");'></a>";
+									}
+									var listBody =	"<tr>"
+									              +"<td>"+(i+1)+"</td>"
+									              +"<td class='text-left'>"+garden.gardenname+"</td>"
+									              +"<td>"+(garden.directorName==null?'未指定':garden.directorName)+"</td>"
+									              +"<td>"+garden.position+"</td>"
+									              +"<td>"+creatTimeStr+"</td>"
+									              +"<td>"+garden.remark+"</td>"
+									              +"<td>"+(garden.status==0?'开园':'闭园')+"</td>"
+									              +"<td>"
+									              +"<a class='table-btn bianji' href='javascript:editGarden("+garden.id+",\""+garden.gardenname+"\",\""+garden.position+"\",\""+creatTimeStr+"\",\""+garden.remark+"\",\""+garden.directorName+"\")' ></a>"
+									              +changeStatusBtn
+									              +"</td>"
+									              +"</tr>";			
+		                			$("#gardenList").append(listBody);
+		                	});
+		                	
+						}
+	                  
+	              }
+	          }
+	      });	
+      
+      	
+    	//刷新方法
+		function falsh(pageIndex) {
+			if (pageIndex < 0) {
+    			//修改删除刷新当前页面
+				pageContainer.page('_remoteOrRedner');
+			}else{
+				//搜索重新加载页面
+				pageContainer.page('_remoteOrRedner',0);
+			}
+		}
+	      
+	    function addSubmit() {
+	  		var validateStatus = validateAddGarden();
+			if (validateStatus==true) {
+				$.ajax({
+					type:"POST",
+					url:"../../web/system/addGarden",
+					data:$("#addGardenForm").serialize(),
+					async:false,
+					error:function(request){
+						alert("系统异常");
+					},
+					success:function(data){
+						if (data.code==200) {
+							$("#addGarden").hide();
+							falsh(0);
+						}
+						if (data.code==400) {
+							alert("添加失败");
+						}
+					}
+				});
+			}			
+		}
+	      
+	      
+	      function validateAddGarden() {
+			var validateStatus = true;
+			if($("#gardenname").val()==null||$("#gardenname").val()==""){
+				$("#gardenname").attr("placeholder","不能为空");
+				validateStatus = false;
+			}
+			if($("#position").val()==null||$("#position").val()==""){
+				$("#position").attr("placeholder","不能为空");
+				validateStatus = false;
+			}
+			if($("#remark").val()==null||$("#remark").val()==""){
+				$("#remark").attr("placeholder","不能为空");
+				validateStatus = false;
+			}
+			return validateStatus;
+		}
+	      
+	      
+	      function editGarden(id,gardenname,position,creatTime,remark,directorName) {
+			$("#gardenId").val(id);
+			$("#gardenname2").val(gardenname);
+			$("#position2").val(position);
+			$("#d2").val(creatTime);
+			$("#remark2").val(remark);
+			if (directorName == null || directorName == "null") {
+				$("#directorName2").val("未指定");
+			}else{
+				$("#directorName2").val(directorName);
+			}
+			$("#editGarden").show();
+				
+			
+		}
+	      
+	      function editSubmit() {
+	    	  var validateStatus = validateEditGarden();
+				if (validateStatus==true) {
+					$.ajax({
+						type:"POST",
+						url:"../../web/system/editGarden",
+						data:$("#editGardenForm").serialize(),
+						async:false,
+						error:function(request){
+							alert("系统异常");
+						},
+						success:function(data){
+							if (data.code==200) {
+								$("#editGarden").hide();
+								falsh(-1);
+							}
+							if (data.code==400) {
+								alert("修改失败");
+							}
+						}
+					});
+				}	
+		}
+	      
+	      
+	      function validateEditGarden() {
+				var validateStatus = true;
+				if($("#gardenname2").val()==null||$("#gardenname2").val()==""){
+					$("#gardenname2").attr("placeholder","不能为空");
+					validateStatus = false;
+				}
+				if($("#position2").val()==null||$("#position2").val()==""){
+					$("#position2").attr("placeholder","不能为空");
+					validateStatus = false;
+				}
+				if($("#remark2").val()==null||$("#remark2").val()==""){
+					$("#remark2").attr("placeholder","不能为空");
+					validateStatus = false;
+				}
+				return validateStatus;
+			}
+	      
+	      
+	      
+	      function deleteGarById(id) {
+				$("#doDelete").attr("onclick","");
+				$("#doDelete").attr("onclick","javascript:deleteGarden("+id+");");
+				$("#deleteBox").show();	
+			}
+	    	
+	    	
+	    	
+	    	function deleteGarden(id) {
+				if (id > 0) {
+					$.ajax({
+						type:"GET",
+						url:"../../web/system/deleteGarden",
+						data:{id:id},
+						error:function(request){
+							alert("网络已断开");
+						},
+						success:function(data){
+							if (data.code == 200) {
+								$("#deleteBox").hide();	
+								falsh(-1);
+							}
+							if (data.code == 400) {
+								alert("删除失败");
+							}
+						}
+					});
+				}
+			}    
+         
+	      
+	      
+	      
+	      
+      </script>
+      
+      
+      
+
+    </div>
+
+    <div id="addGarden" class="m-popup w610">
+      <div class="cover"> 
+      </div>
+      <div class="box">
+        <div class="hd">
+          <span>新增</span>
+          <a class="close"></a>
+        </div>
+        <form id="addGardenForm">
+        <div class="bd">
+          <div class="row-1">
+            <label class="m-input">
+              <span>幼儿园名称:</span>
+              <div>
+                <input id="gardenname" type="text" name="gardenname" placeholder="请输入"/>
+              </div>
+            </label>
+            <label class="m-input">
+              <span>园长:</span>
+              <div>
+                <input id="directorName" type="text" placeholder="锁定" disabled="disabled"/>
+              </div>
+            </label>
+          </div>
+          <div class="row-1">
+            <label class="m-input">
+              <span>地址:</span>
+              <div>
+                <input id="position" type="text" name="position" placeholder="请输入"/>
+              </div>
+            </label>
+            <label class="m-input">
+              <span>创建时间:</span>
+              <div>
+                <input id="d1" type="text" name="createTime" placeholder="请输入"/>
+              </div>
+            </label>
+          </div>
+          <div class="row-2">
+            <label class="m-textarea">
+              <span>备注:</span>
+              <div>
+                <textarea id="remark" name="remark" placeholder="请输入备注内容"></textarea>
+              </div>
+            </label>
+          </div>
+        </div>
+        </form>
+        <div class="ft">
+          <button class="default ok" onclick="addSubmit();">确认</button>
+          <button class="default no close">取消</button>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div id="editGarden" class="m-popup edit w610">
+      <div class="cover"> 
+      </div>
+      <div class="box">
+        <div class="hd">
+          <span>编辑</span>
+          <a class="close"></a>
+        </div>
+        <form id="editGardenForm">
+        <div class="bd">
+          <div class="row-1">
+            <label class="m-input">
+              <span>幼儿园名称:</span>
+              <div>
+              	<input type="hidden" id="gardenId" name="id" >
+                <input id="gardenname2" name="gardenname" type="text" placeholder="请输入"/>
+              </div>
+            </label>
+            <label class="m-input">
+              <span>园长:</span>
+              <div>
+                <input id="directorName2" type="text" placeholder="请输入" disabled="disabled"/>
+              </div>
+            </label>
+          </div>
+          <div class="row-1">
+            <label class="m-input">
+              <span>地址:</span>
+              <div>
+                <input id="position2" name="position" type="text" placeholder="请输入"/>
+              </div>
+            </label>
+            <label class="m-input">
+              <span>创建时间:</span>
+              <div>
+                <input id="d2" name="createTime" type="text" placeholder="请输入"/>
+              </div>
+            </label>
+          </div>
+          <div class="row-2">
+            <label class="m-textarea">
+              <span>备注:</span>
+              <div>
+                <textarea id="remark2" name="remark"  placeholder="请输入备注内容"></textarea>
+              </div>
+            </label>
+          </div>
+        </div>
+        </form>
+        <div class="ft">
+          <button class="default ok" onclick="editSubmit();">确认</button>
+          <button class="default no close">取消</button>
+        </div>
+      </div>
+    </div>
+    
+
+    <div id="deleteBox" class="m-popup-tip">
+      <div class="cover"> 
+      </div>
+      <div class="box">
+        <div class="hd">
+          <span>提示</span>
+          <a class="close"></a>
+        </div>
+        <div class="bd">
+          <div><p>是否确认修改幼儿园状态？</p></div>
+        </div>
+        <div class="ft">
+          <button class="default ok" id="doDelete">确认</button>
+          <button class="default no close">取消</button>
+        </div>
+      </div>
+    </div>    
+  </div>
+</body>
+</html>
