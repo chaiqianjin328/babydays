@@ -3,6 +3,7 @@ package com.babydays.config;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.aspectj.weaver.ast.Var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -81,8 +82,10 @@ public class WebConfigurer implements WebMvcConfigurer {
         //5.将convert添加到converters当中.
         converters.add(fastJsonHttpMessageConverter);
 	}
-	
-	
-	
+
+
+    public static void main(String[] args) {
+        int i = 123;
+    }
 	
 }
