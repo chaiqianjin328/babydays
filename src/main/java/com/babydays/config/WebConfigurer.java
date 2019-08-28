@@ -84,8 +84,4 @@ public class WebConfigurer implements WebMvcConfigurer {
 	}
 
 
-    public static void main(String[] args) {
-        int i = 123;
-    }
-	
 }
