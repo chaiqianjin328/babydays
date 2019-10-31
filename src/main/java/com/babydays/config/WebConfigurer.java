@@ -1,8 +1,14 @@
 package com.babydays.config;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.function.Consumer;
+import java.util.function.IntConsumer;
 
+import com.babydays.service.AdminService;
+import com.sun.tools.javac.util.Convert;
+import lombok.val;
+import org.aspectj.weaver.ast.Var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -81,8 +87,9 @@ public class WebConfigurer implements WebMvcConfigurer {
         //5.将convert添加到converters当中.
         converters.add(fastJsonHttpMessageConverter);
 	}
-	
-	
-	
-	
+
+
+
+
+
 }
